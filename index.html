@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Special Question for Zariya ✨</title>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ffe6e9 0%, #f0c3ec 100%);
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Floating background hearts */
+    .bg-heart {
+      position: absolute;
+      color: rgba(255, 105, 180, 0.25);
+      font-size: 20px;
+      animation: floatUp 8s linear infinite;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh) scale(0.5) rotate(0deg);
+        opacity: 0;
+      }
+      20% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-10vh) scale(1.2) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Main Card Container */
+    .container {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      border-radius: 24px;
+      padding: 40px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(220, 90, 150, 0.2);
+      max-width: 450px;
+      width: 90%;
+      position: relative;
+      z-index: 10;
+      transition: transform 0.3s ease;
+    }
+
+    .gif-container img {
+      width: 170px;
+      height: 170px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 20px;
+      border: 4px solid #ff7eb9;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: #d63384;
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    p.subtitle {
+      color: #6c757d;
+      font-size: 1.05rem;
+      margin-bottom: 30px;
+      min-height: 24px;
+    }
+
+    /* Button Area */
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      position: relative;
+      min-height: 60px;
+    }
+
+    .btn {
+      padding: 14px 32px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      outline: none;
+    }
+
+    .btn-yes {
+      background: linear-gradient(45deg, #ff416c, #ff4b2b);
+      color: white;
+      box-shadow: 0 6px 20px rgba(255, 65, 108, 0.4);
+    }
+
+    .btn-yes:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(255, 65, 108, 0.6);
+    }
+
+    .btn-no {
+      background-color: #e9ecef;
+      color: #495057;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      position: absolute;
+      right: 40px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    /* Celebration Screen */
+    .celebration {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.8s ease forwards;
+    }
+
+    .celebration h2 {
+      color: #ff2a70;
+      font-size: 2.2rem;
+      margin-bottom: 15px;
+    }
+
+    .celebration p {
+      color: #4a4a4a;
+      font-size: 1.2rem;
+      line-height: 1.6;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Animated Hearts -->
+  <div id="bg-hearts"></div>
+
+  <!-- Proposal Card -->
+  <div class="container" id="main-card">
+    <div class="card-content" id="question-content">
+      <div class="gif-container">
+        <img id="display-gif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHY5YXd3ZG9sb3RveXRicmszd25xbmlxbTJmMThsbWNvbjBicTN3NyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/cLS1cf3xm38lvhfa09/giphy.gif" alt="Cute Bear">
+      </div>
+      <h1>Will you be my GF, Zariya? 💖</h1>
+      <p class="subtitle" id="funny-subtitle">Think carefully... choose wisely!</p>
+      
+      <div class="btn-group">
+        <button class="btn btn-yes" id="yes-btn" onclick="acceptProposal()">YES! 🌹</button>
+        <button class="btn btn-no" id="no-btn" onmouseover="moveNoBtn()" onclick="moveNoBtn()">No</button>
+      </div>
+    </div>
+
+    <!-- Hidden Celebration Screen -->
+    <div class="celebration" id="celebration-content">
+      <div class="gif-container">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3ZydHZpdXFic3B4OWg2ZTB3dnlqZzFlOHUxcGtjcHZ2am84MGF5dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26hpW384M1E6bK8m0/giphy.gif" alt="Happy Cute Dance">
+      </div>
+      <h2>YAY! Best Decision Ever! 🎉✨</h2>
+      <p>I knew you couldn't say no, Zariya! <br> Get ready for lots of smiles, love, and memories together! ❤️</p>
+    </div>
+  </div>
+
+  <script>
+    let dodgeCount = 0;
+    const maxDodges = 10;
+    const noBtn = document.getElementById('no-btn');
+    const subtitle = document.getElementById('funny-subtitle');
+    const displayGif = document.getElementById('display-gif');
+
+    const playfulMessages = [
+      "Are you sure, Zariya?",
+      "Wait, think again!",
+      "Nice try, but nope!",
+      "Missed it! 😜",
+      "Wrong button, Zariya!",
+      "You can't escape love!",
+      "Getting tired yet?",
+      "Almost got it... not!",
+      "Just 2 more tries...",
+      "Last chance to click Yes!"
+    ];
+
+    const gifs = [
+      "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHY5YXd3ZG9sb3RveXRicmszd25xbmlxbTJmMThsbWNvbjBicTN3NyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/cLS1cf3xm38lvhfa09/giphy.gif",
+      "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbjRscTVsc2xxejBycmtzODkyaWdrZDVxZnlvOW4yYnhxcnI0bGJ3dyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKoWXm3okO1mgHC/giphy.gif",
+      "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNndrNWs5NnNmMXA1ZnA3cXJ3Zjh3ZThoNWtzazVsNXlnODNybmUydSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/L9543L4EGfz44/giphy.gif"
+    ];
+
+    // Create background floating hearts dynamic element
+    const heartsContainer = document.getElementById('bg-hearts');
+    const heartSymbols = ['💖', '🌸', '✨', '💕', '💗'];
+    for (let i = 0; i < 25; i++) {
+      const heart = document.createElement('div');
+      heart.className = 'bg-heart';
+      heart.innerText = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDelay = Math.random() * 8 + 's';
+      heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+      heartsContainer.appendChild(heart);
+    }
+
+    function moveNoBtn() {
+      if (dodgeCount < maxDodges) {
+        dodgeCount++;
+
+        // Calculate random position within viewport boundaries
+        const padding = 20;
+        const btnWidth = noBtn.offsetWidth;
+        const btnHeight = noBtn.offsetHeight;
+        
+        const maxX = window.innerWidth - btnWidth - padding;
+        const maxY = window.innerHeight - btnHeight - padding;
+
+        const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+        const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+
+        // Switch to fixed positioning so it moves anywhere on screen
+        noBtn.style.position = 'fixed';
+        noBtn.style.left = randomX + 'px';
+        noBtn.style.top = randomY + 'px';
+
+        // Update messaging and gif
+        subtitle.innerText = playfulMessages[dodgeCount - 1] || "Just click YES!";
+        if (dodgeCount === 3) displayGif.src = gifs[1];
+        if (dodgeCount === 7) displayGif.src = gifs[2];
+
+        if (dodgeCount === maxDodges) {
+          // Hide button on the 10th attempt
+          setTimeout(() => {
+            noBtn.style.display = 'none';
+            subtitle.innerText = "Oops! 'No' button disappeared. Seems you only have one choice left! 😉";
+          }, 200);
+        }
+      }
+    }
+
+    function acceptProposal() {
+      document.getElementById('question-content').style.display = 'none';
+      document.getElementById('celebration-content').style.display = 'flex';
+
+      // Confetti burst logic
+      const count = 200;
+      const defaults = { origin: { y: 0.7 } };
+
+      function fire(particleRatio, opts) {
+        confetti(Object.assign({}, defaults, opts, {
+          particleCount: Math.floor(count * particleRatio)
+        }));
+      }
+
+      fire(0.25, { spread: 26, startVelocity: 55 });
+      fire(0.2, { spread: 60 });
+      fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+      fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+      fire(0.1, { spread: 120, startVelocity: 45 });
+    }
+  </script>
+</body>
+</html>
